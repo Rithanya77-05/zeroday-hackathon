@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Complaints - CampusLink</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1><i class="fas fa-university"></i> CampusLink</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="announcements.html" class="nav-link">
+                <i class="fas fa-bullhorn"></i> Announcements
+            </a>
+            <a href="lostfound.html" class="nav-link">
+                <i class="fas fa-search"></i> Lost & Found
+            </a>
+            <a href="timetable.html" class="nav-link">
+                <i class="fas fa-calendar-alt"></i> Timetable
+            </a>
+            <a href="complaints.html" class="nav-link active">
+                <i class="fas fa-exclamation-triangle"></i> Complaints
+            </a>
+        </div>
+        <div class="nav-user">
+            <div class="user-info">
+                <span id="userName">John Doe</span>
+                <span id="userRole">Student</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="page-header">
+            <h2><i class="fas fa-exclamation-triangle"></i> Hostel Complaints</h2>
+            <p>Report and track hostel-related issues</p>
+        </div>
+
+        <div class="complaints-controls">
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchComplaints" placeholder="Search complaints...">
+                </div>
+                <div class="filter-controls">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="water">Water Issues</option>
+                        <option value="electricity">Electricity</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="security">Security</option>
+                        <option value="noise">Noise</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <select id="priorityFilter">
+                        <option value="">All Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="openComplaintModal()">
+                <i class="fas fa-plus"></i> File New Complaint
+            </button>
+        </div>
+
+        <div class="complaints-stats">
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>5</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon in-progress">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>3</h3>
+                    <p>In Progress</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon resolved">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>12</h3>
+                    <p>Resolved</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-list"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>20</h3>
+                    <p>Total</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="complaints-grid" id="complaintsContainer">
+            <div class="complaint-card urgent pending">
+                <div class="complaint-header">
+                    <div class="complaint-meta">
+                        <span class="complaint-id">#C001</span>
+                        <span class="complaint-status pending">Pending</span>
+                        <span class="complaint-priority urgent">Urgent</span>
+                    </div>
+                    <div class="complaint-date">
+                        <i class="fas fa-calendar"></i> Today, 2:30 PM
+                    </div>
+                </div>
+                <div class="complaint-content">
+                    <h3>Water Supply Issue - Room H-204</h3>
+                    <p class="complaint-category"><i class="fas fa-tag"></i> Water Issues</p>
+                    <p class="complaint-description">No water supply in my room since morning. The taps are completely dry and this is affecting daily activities.</p>
+                    <div class="complaint-details">
+                        <span class="complaint-location"><i class="fas fa-map-marker-alt"></i> Hostel Block H, Room 204</span>
+                        <span class="complaint-reporter"><i class="fas fa-user"></i> John Doe (CS Dept)</span>
+                    </div>
+                </div>
+                <div class="complaint-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="viewComplaint('C001')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="btn btn-sm btn-primary admin-only" onclick="updateComplaintStatus('C001')">
+                        <i class="fas fa-edit"></i> Update Status
+                    </button>
+                </div>
+            </div>
+
+            <div class="complaint-card medium in-progress">
+                <div class="complaint-header">
+                    <div class="complaint-meta">
+                        <span class="complaint-id">#C002</span>
+                        <span class="complaint-status in-progress">In Progress</span>
+                        <span class="complaint-priority medium">Medium</span>
+                    </div>
+                    <div class="complaint-date">
+                        <i class="fas fa-calendar"></i> Yesterday, 4:15 PM
+                    </div>
+                </div>
+                <div class="complaint-content">
+                    <h3>Broken Light in Common Area</h3>
+                    <p class="complaint-category"><i class="fas fa-tag"></i> Electricity</p>
+                    <p class="complaint-description">The main light in the common area of Block A is not working. Students are having difficulty studying in the evening.</p>
+                    <div class="complaint-details">
+                        <span class="complaint-location"><i class="fas fa-map-marker-alt"></i> Hostel Block A, Common Area</span>
+                        <span class="complaint-reporter"><i class="fas fa-user"></i> Sarah Johnson (ECE Dept)</span>
+                    </div>
+                </div>
+                <div class="complaint-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="viewComplaint('C002')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="btn btn-sm btn-primary admin-only" onclick="updateComplaintStatus('C002')">
+                        <i class="fas fa-edit"></i> Update Status
+                    </button>
+                </div>
+                <div class="complaint-updates">
+                    <div class="update-item">
+                        <span class="update-time">Today, 10:00 AM</span>
+                        <span class="update-text">Electrician assigned to fix the issue</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="complaint-card low resolved">
+                <div class="complaint-header">
+                    <div class="complaint-meta">
+                        <span class="complaint-id">#C003</span>
+                        <span class="complaint-status resolved">Resolved</span>
+                        <span class="complaint-priority low">Low</span>
+                    </div>
+                    <div class="complaint-date">
+                        <i class="fas fa-calendar"></i> 2 days ago
+                    </div>
+                </div>
+                <div class="complaint-content">
+                    <h3>Cleaning Schedule Request</h3>
+                    <p class="complaint-category"><i class="fas fa-tag"></i> Cleaning</p>
+                    <p class="complaint-description">Request to increase cleaning frequency in the washrooms as they get dirty quickly during exam season.</p>
+                    <div class="complaint-details">
+                        <span class="complaint-location"><i class="fas fa-map-marker-alt"></i> Hostel Block B, Floor 2</span>
+                        <span class="complaint-reporter"><i class="fas fa-user"></i> Mike Wilson (Mech Dept)</span>
+                    </div>
+                </div>
+                <div class="complaint-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="viewComplaint('C003')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <div class="complaint-resolution">
+                        <i class="fas fa-check-circle"></i> Resolved by Admin
+                    </div>
+                </div>
+                <div class="complaint-updates">
+                    <div class="update-item">
+                        <span class="update-time">Yesterday, 3:00 PM</span>
+                        <span class="update-text">Cleaning schedule updated. Washrooms will be cleaned twice daily during exam period.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="complaint-card high pending">
+                <div class="complaint-header">
+                    <div class="complaint-meta">
+                        <span class="complaint-id">#C004</span>
+                        <span class="complaint-status pending">Pending</span>
+                        <span class="complaint-priority high">High</span>
+                    </div>
+                    <div class="complaint-date">
+                        <i class="fas fa-calendar"></i> 3 days ago
+                    </div>
+                </div>
+                <div class="complaint-content">
+                    <h3>Security Concern - Main Gate</h3>
+                    <p class="complaint-category"><i class="fas fa-tag"></i> Security</p>
+                    <p class="complaint-description">The main gate security guard is often absent during late night hours, which is a safety concern for students returning late.</p>
+                    <div class="complaint-details">
+                        <span class="complaint-location"><i class="fas fa-map-marker-alt"></i> Hostel Main Gate</span>
+                        <span class="complaint-reporter"><i class="fas fa-user"></i> Alex Brown (CS Dept)</span>
+                    </div>
+                </div>
+                <div class="complaint-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="viewComplaint('C004')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="btn btn-sm btn-primary admin-only" onclick="updateComplaintStatus('C004')">
+                        <i class="fas fa-edit"></i> Update Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Complaint Modal -->
+    <div id="complaintModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> File New Complaint</h3>
+                <button class="modal-close" onclick="closeComplaintModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="complaintForm" class="modal-form">
+                <div class="form-group">
+                    <label for="complaintTitle">
+                        <i class="fas fa-heading"></i> Complaint Title
+                    </label>
+                    <input type="text" id="complaintTitle" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="complaintCategory">
+                            <i class="fas fa-tag"></i> Category
+                        </label>
+                        <select id="complaintCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="water">Water Issues</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="security">Security</option>
+                            <option value="noise">Noise</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaintPriority">
+                            <i class="fas fa-exclamation-circle"></i> Priority
+                        </label>
+                        <select id="complaintPriority" name="priority" required>
+                            <option value="">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintLocation">
+                        <i class="fas fa-map-marker-alt"></i> Location
+                    </label>
+                    <input type="text" id="complaintLocation" name="location" required placeholder="e.g., Hostel Block A, Room 101">
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintDescription">
+                        <i class="fas fa-align-left"></i> Description
+                    </label>
+                    <textarea id="complaintDescription" name="description" rows="5" required placeholder="Provide detailed description of the issue..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintAttachment">
+                        <i class="fas fa-paperclip"></i> Attachment (Optional)
+                    </label>
+                    <input type="file" id="complaintAttachment" name="attachment" accept="image/*,.pdf">
+                    <small>Upload photos or documents related to the complaint</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintContact">
+                        <i class="fas fa-phone"></i> Contact Information
+                    </label>
+                    <input type="text" id="complaintContact" name="contact" required placeholder="Phone number or email for follow-up">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeComplaintModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Complaint
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Complaint Modal -->
+    <div id="viewComplaintModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-eye"></i> Complaint Details</h3>
+                <button class="modal-close" onclick="closeViewComplaintModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="complaint-details-content">
+                <div class="detail-section">
+                    <h4>Complaint Information</h4>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>ID:</label>
+                            <span id="detailId">#C001</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Status:</label>
+                            <span id="detailStatus" class="status-badge pending">Pending</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Priority:</label>
+                            <span id="detailPriority" class="priority-badge urgent">Urgent</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Category:</label>
+                            <span id="detailCategory">Water Issues</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Location:</label>
+                            <span id="detailLocation">Hostel Block H, Room 204</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Submitted:</label>
+                            <span id="detailDate">Today, 2:30 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4>Description</h4>
+                    <p id="detailDescription">No water supply in my room since morning. The taps are completely dry and this is affecting daily activities.</p>
+                </div>
+
+                <div class="detail-section admin-only">
+                    <h4>Update Status</h4>
+                    <form id="statusUpdateForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <select id="newStatus" name="status">
+                                    <option value="pending">Pending</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="resolved">Resolved</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Update
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="statusComment" name="comment" rows="3" placeholder="Add a comment about this update..."></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="detail-section">
+                    <h4>Timeline</h4>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Today, 2:30 PM</div>
+                            <div class="timeline-content">Complaint submitted by John Doe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

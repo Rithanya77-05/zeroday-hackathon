@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - CampusLink</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1><i class="fas fa-university"></i> CampusLink</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="announcements.html" class="nav-link active">
+                <i class="fas fa-bullhorn"></i> Announcements
+            </a>
+            <a href="lostfound.html" class="nav-link">
+                <i class="fas fa-search"></i> Lost & Found
+            </a>
+            <a href="timetable.html" class="nav-link">
+                <i class="fas fa-calendar-alt"></i> Timetable
+            </a>
+            <a href="complaints.html" class="nav-link">
+                <i class="fas fa-exclamation-triangle"></i> Complaints
+            </a>
+        </div>
+        <div class="nav-user">
+            <div class="user-info">
+                <span id="userName">John Doe</span>
+                <span id="userRole">Student</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="page-header">
+            <h2><i class="fas fa-bullhorn"></i> Campus Announcements</h2>
+            <p>Stay updated with the latest campus news and events</p>
+        </div>
+
+        <div class="announcements-controls">
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchAnnouncements" placeholder="Search announcements...">
+                </div>
+                <div class="filter-controls">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="academic">Academic</option>
+                        <option value="event">Events</option>
+                        <option value="hostel">Hostel</option>
+                        <option value="general">General</option>
+                    </select>
+                    <select id="dateFilter">
+                        <option value="">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="newAnnouncementBtn" onclick="openAnnouncementModal()">
+                <i class="fas fa-plus"></i> New Announcement
+            </button>
+        </div>
+
+        <div class="announcements-grid" id="announcementsContainer">
+            <div class="announcement-card urgent">
+                <div class="announcement-header">
+                    <div class="announcement-meta">
+                        <span class="announcement-category urgent">Urgent</span>
+                        <span class="announcement-date">Today, 10:30 AM</span>
+                    </div>
+                    <div class="announcement-actions">
+                        <button class="btn-icon" title="Pin announcement">
+                            <i class="fas fa-thumbtack"></i>
+                        </button>
+                        <button class="btn-icon admin-only" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon admin-only" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <h3>Mid-term Exam Schedule Released</h3>
+                <p>The mid-term examination schedule for all departments has been published. Students are advised to check their respective department notice boards and download the schedule from the student portal. Exams will commence from March 15th, 2024.</p>
+                <div class="announcement-footer">
+                    <span class="announcement-author">Posted by: Academic Office</span>
+                    <div class="announcement-stats">
+                        <span><i class="fas fa-eye"></i> 245 views</span>
+                        <span><i class="fas fa-heart"></i> 12 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card event">
+                <div class="announcement-header">
+                    <div class="announcement-meta">
+                        <span class="announcement-category event">Event</span>
+                        <span class="announcement-date">Yesterday, 3:15 PM</span>
+                    </div>
+                    <div class="announcement-actions">
+                        <button class="btn-icon" title="Pin announcement">
+                            <i class="fas fa-thumbtack"></i>
+                        </button>
+                    </div>
+                </div>
+                <h3>Tech Fest 2024 Registration Open</h3>
+                <p>Registration for the annual Tech Fest 2024 is now open! Join us for exciting competitions, workshops, and tech talks. Multiple categories including coding, robotics, and innovation challenges. Register before March 10th to avail early bird discounts.</p>
+                <div class="announcement-footer">
+                    <span class="announcement-author">Posted by: Student Activities</span>
+                    <div class="announcement-stats">
+                        <span><i class="fas fa-eye"></i> 189 views</span>
+                        <span><i class="fas fa-heart"></i> 28 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card academic">
+                <div class="announcement-header">
+                    <div class="announcement-meta">
+                        <span class="announcement-category academic">Academic</span>
+                        <span class="announcement-date">2 days ago</span>
+                    </div>
+                    <div class="announcement-actions">
+                        <button class="btn-icon" title="Pin announcement">
+                            <i class="fas fa-thumbtack"></i>
+                        </button>
+                    </div>
+                </div>
+                <h3>Library Extended Hours During Exams</h3>
+                <p>The central library will extend its operating hours during the examination period. From March 1st to March 30th, the library will be open from 6:00 AM to 11:00 PM on weekdays and 8:00 AM to 10:00 PM on weekends.</p>
+                <div class="announcement-footer">
+                    <span class="announcement-author">Posted by: Library Administration</span>
+                    <div class="announcement-stats">
+                        <span><i class="fas fa-eye"></i> 156 views</span>
+                        <span><i class="fas fa-heart"></i> 15 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="announcement-card hostel">
+                <div class="announcement-header">
+                    <div class="announcement-meta">
+                        <span class="announcement-category hostel">Hostel</span>
+                        <span class="announcement-date">3 days ago</span>
+                    </div>
+                    <div class="announcement-actions">
+                        <button class="btn-icon" title="Pin announcement">
+                            <i class="fas fa-thumbtack"></i>
+                        </button>
+                    </div>
+                </div>
+                <h3>Hostel Mess Menu Updated</h3>
+                <p>New mess menu has been implemented based on student feedback. The updated menu includes more variety in breakfast options and additional vegetarian choices for dinner. Menu cards are available at each hostel reception.</p>
+                <div class="announcement-footer">
+                    <span class="announcement-author">Posted by: Hostel Administration</span>
+                    <div class="announcement-stats">
+                        <span><i class="fas fa-eye"></i> 203 views</span>
+                        <span><i class="fas fa-heart"></i> 34 likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Announcement Modal -->
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-bullhorn"></i> Create New Announcement</h3>
+                <button class="modal-close" onclick="closeAnnouncementModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="announcementForm" class="modal-form">
+                <div class="form-group">
+                    <label for="announcementTitle">
+                        <i class="fas fa-heading"></i> Title
+                    </label>
+                    <input type="text" id="announcementTitle" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="announcementCategory">
+                            <i class="fas fa-tag"></i> Category
+                        </label>
+                        <select id="announcementCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="academic">Academic</option>
+                            <option value="event">Events</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementPriority">
+                            <i class="fas fa-exclamation-circle"></i> Priority
+                        </label>
+                        <select id="announcementPriority" name="priority" required>
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="announcementContent">
+                        <i class="fas fa-align-left"></i> Content
+                    </label>
+                    <textarea id="announcementContent" name="content" rows="6" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="announcementAttachment">
+                        <i class="fas fa-paperclip"></i> Attachment (Optional)
+                    </label>
+                    <input type="file" id="announcementAttachment" name="attachment" accept=".pdf,.doc,.docx,.jpg,.png">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAnnouncementModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Post Announcement
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
