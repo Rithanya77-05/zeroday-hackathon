@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - CampusLink</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1><i class="fas fa-university"></i> CampusLink</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="announcements.html" class="nav-link">
+                <i class="fas fa-bullhorn"></i> Announcements
+            </a>
+            <a href="lostfound.html" class="nav-link active">
+                <i class="fas fa-search"></i> Lost & Found
+            </a>
+            <a href="timetable.html" class="nav-link">
+                <i class="fas fa-calendar-alt"></i> Timetable
+            </a>
+            <a href="complaints.html" class="nav-link">
+                <i class="fas fa-exclamation-triangle"></i> Complaints
+            </a>
+        </div>
+        <div class="nav-user">
+            <div class="user-info">
+                <span id="userName">John Doe</span>
+                <span id="userRole">Student</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="page-header">
+            <h2><i class="fas fa-search"></i> Lost & Found</h2>
+            <p>Help reunite lost items with their owners</p>
+        </div>
+
+        <div class="lostfound-controls">
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchItems" placeholder="Search items by name, description, or location...">
+                </div>
+                <div class="filter-controls">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="books">Books & Stationery</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="documents">Documents</option>
+                        <option value="sports">Sports Equipment</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="lost">Lost Items</option>
+                        <option value="found">Found Items</option>
+                        <option value="claimed">Claimed</option>
+                    </select>
+                    <select id="locationFilter">
+                        <option value="">All Locations</option>
+                        <option value="library">Library</option>
+                        <option value="cafeteria">Cafeteria</option>
+                        <option value="hostel">Hostel</option>
+                        <option value="classroom">Classroom</option>
+                        <option value="playground">Playground</option>
+                        <option value="parking">Parking Area</option>
+                    </select>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="openReportModal('lost')">
+                    <i class="fas fa-minus-circle"></i> Report Lost Item
+                </button>
+                <button class="btn btn-primary" onclick="openReportModal('found')">
+                    <i class="fas fa-plus-circle"></i> Report Found Item
+                </button>
+            </div>
+        </div>
+
+        <div class="items-grid" id="itemsContainer">
+            <div class="item-card found">
+                <div class="item-image">
+                    <img src="assets/images/phone.jpg" alt="iPhone" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NyA3MEg4M1Y3NEg4N1Y3MFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHA+CjxyZWN0IHg9Ijc1IiB5PSI2NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4='">
+                    <div class="item-status found">Found</div>
+                </div>
+                <div class="item-details">
+                    <h3>iPhone 12 Pro</h3>
+                    <p class="item-description">Black iPhone with cracked screen found near the library entrance. Has a blue case.</p>
+                    <div class="item-meta">
+                        <span class="item-location"><i class="fas fa-map-marker-alt"></i> Library Entrance</span>
+                        <span class="item-date"><i class="fas fa-calendar"></i> 2 hours ago</span>
+                        <span class="item-category electronics">Electronics</span>
+                    </div>
+                    <div class="item-contact">
+                        <span>Contact: John Smith (CS Dept)</span>
+                        <button class="btn btn-sm btn-primary" onclick="claimItem('item1')">
+                            <i class="fas fa-hand-paper"></i> Claim Item
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card lost">
+                <div class="item-image">
+                    <img src="assets/images/wallet.jpg" alt="Wallet" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NyA3MEg4M1Y3NEg4N1Y3MFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHA+CjxyZWN0IHg9Ijc1IiB5PSI2NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4='">
+                    <div class="item-status lost">Lost</div>
+                </div>
+                <div class="item-details">
+                    <h3>Brown Leather Wallet</h3>
+                    <p class="item-description">Lost my brown leather wallet containing ID card and some cash. Last seen in the cafeteria.</p>
+                    <div class="item-meta">
+                        <span class="item-location"><i class="fas fa-map-marker-alt"></i> Cafeteria</span>
+                        <span class="item-date"><i class="fas fa-calendar"></i> 5 hours ago</span>
+                        <span class="item-category accessories">Accessories</span>
+                    </div>
+                    <div class="item-contact">
+                        <span>Contact: Sarah Johnson (ECE Dept)</span>
+                        <button class="btn btn-sm btn-secondary" onclick="foundItem('item2')">
+                            <i class="fas fa-eye"></i> I Found This
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card found">
+                <div class="item-image">
+                    <img src="assets/images/book.jpg" alt="Textbook" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NyA3MEg4M1Y3NEg4N1Y3MFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHA+CjxyZWN0IHg9Ijc1IiB5PSI2NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4='">
+                    <div class="item-status found">Found</div>
+                </div>
+                <div class="item-details">
+                    <h3>Data Structures Textbook</h3>
+                    <p class="item-description">Found a Data Structures and Algorithms textbook with name "Mike Wilson" written inside.</p>
+                    <div class="item-meta">
+                        <span class="item-location"><i class="fas fa-map-marker-alt"></i> CS Building</span>
+                        <span class="item-date"><i class="fas fa-calendar"></i> 1 day ago</span>
+                        <span class="item-category books">Books & Stationery</span>
+                    </div>
+                    <div class="item-contact">
+                        <span>Contact: Alex Brown (CS Dept)</span>
+                        <button class="btn btn-sm btn-primary" onclick="claimItem('item3')">
+                            <i class="fas fa-hand-paper"></i> Claim Item
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card lost">
+                <div class="item-image">
+                    <img src="assets/images/keys.jpg" alt="Keys" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NyA3MEg4M1Y3NEg4N1Y3MFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHA+CjxyZWN0IHg9Ijc1IiB5PSI2NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjIwIiByeD0iMiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4='">
+                    <div class="item-status lost">Lost</div>
+                </div>
+                <div class="item-details">
+                    <h3>Hostel Room Keys</h3>
+                    <p class="item-description">Lost my hostel room keys with a red keychain. Room number H-204.</p>
+                    <div class="item-meta">
+                        <span class="item-location"><i class="fas fa-map-marker-alt"></i> Hostel Area</span>
+                        <span class="item-date"><i class="fas fa-calendar"></i> 2 days ago</span>
+                        <span class="item-category accessories">Accessories</span>
+                    </div>
+                    <div class="item-contact">
+                        <span>Contact: David Lee (Mech Dept)</span>
+                        <button class="btn btn-sm btn-secondary" onclick="foundItem('item4')">
+                            <i class="fas fa-eye"></i> I Found This
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Item Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Report Found Item</h3>
+                <button class="modal-close" onclick="closeReportModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="reportForm" class="modal-form">
+                <input type="hidden" id="reportType" name="type">
+                
+                <div class="form-group">
+                    <label for="itemName">
+                        <i class="fas fa-tag"></i> Item Name
+                    </label>
+                    <input type="text" id="itemName" name="name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="itemCategory">
+                            <i class="fas fa-list"></i> Category
+                        </label>
+                        <select id="itemCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="books">Books & Stationery</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="accessories">Accessories</option>
+                            <option value="documents">Documents</option>
+                            <option value="sports">Sports Equipment</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemLocation">
+                            <i class="fas fa-map-marker-alt"></i> Location
+                        </label>
+                        <select id="itemLocation" name="location" required>
+                            <option value="">Select Location</option>
+                            <option value="library">Library</option>
+                            <option value="cafeteria">Cafeteria</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="classroom">Classroom</option>
+                            <option value="playground">Playground</option>
+                            <option value="parking">Parking Area</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemDescription">
+                        <i class="fas fa-align-left"></i> Description
+                    </label>
+                    <textarea id="itemDescription" name="description" rows="4" required placeholder="Provide detailed description of the item..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemImage">
+                        <i class="fas fa-camera"></i> Item Photo (Optional)
+                    </label>
+                    <input type="file" id="itemImage" name="image" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label for="contactInfo">
+                        <i class="fas fa-phone"></i> Contact Information
+                    </label>
+                    <input type="text" id="contactInfo" name="contact" required placeholder="Phone number or email">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeReportModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
